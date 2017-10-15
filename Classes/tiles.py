@@ -73,6 +73,16 @@ class Tile(pygame.Rect):
 		Tile.heightTile = 0
 
 
+	def is_walkable(self, direction):
+
+		for i in range(0, len(self.walls)):
+			if self.walls[i].is_blocked(direction):
+				return False
+
+		return True
+
+
+
 
 
 

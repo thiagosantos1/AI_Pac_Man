@@ -11,6 +11,9 @@ import pygame
 from time import sleep
 from maze import *
 from tiles import *
+from character import *
+from survivor import *
+from interaction import interaction
 import random
 
 pygame.init()
@@ -53,7 +56,27 @@ while backgroundColor == mazeColor:
 mazeSize = int(input("Please, enter the size of the Maze(it's N*N): "))
 
 tileWidth = WIDTH // mazeSize
+
+# make sure is divisble by 2. make easir to control how to move
+while(tileWidth %2 !=0):
+	tileWidth+=1
+
+if tileWidth * mazeSize > WIDTH:
+	tileWidth -=1
+	while(tileWidth %2 !=0):
+		tileWidth-=1
+
 tileHeight = HEIGHT // mazeSize
+
+while tileHeight %2 !=0:
+	tileHeight+=1
+
+if tileHeight * mazeSize > HEIGHT:
+	tileHeight-=1
+	while(tileHeight %2 !=0):
+		tileHeight-=1
+
+
 WIDTH = tileWidth * mazeSize
 HEIGHT = tileHeight * mazeSize
 
@@ -64,13 +87,16 @@ pygame.mouse.set_visible(False)
 
 maze = Maze(mazeSize,WIDTH,HEIGHT)
 
+survivor = Survivor(1) # each tile you wish the survivor to start at
+
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
-FPS = 24 # if we increase this number, the speed of character will be lower
+FPS = 35 # if we increase this number, the speed of character will be lower
 total_frames = 0
 
 # Loop until the user clicks the close button.
 done = False
+
 
 while not done:
 
@@ -78,7 +104,7 @@ while not done:
 	clock_elapsed_seconds = milliseconds / 1000.0 # seconds passed since last frame (float)
 
 	if total_frames ==0:
-		pygame.mixer.music.load('../Sound_Effects/welcome/Haunted1.wav')
+		pygame.mixer.music.load('../Sound_Effects/welcome/welcome.wav')
 		# play the background game music
 		pygame.mixer.music.play(-1) # -1 put to loop the music forever
 
@@ -101,6 +127,9 @@ while not done:
 			
 
     # --- Game logic should go here
+
+    # interaction method from Interaction class. It control all events from the game
+	interaction(screen, survivor)
  
     # --- Screen-clearing code goes here
  
@@ -113,6 +142,9 @@ while not done:
  	
     # --- Drawing code should go here
 	maze.draw_maze(screen,list_colors[mazeColor])
+
+	# move to the new direction, and also draw the player in the screen
+	survivor.update(screen,clock_elapsed_seconds)
  	
  	# update the total of frames
 	total_frames+=1

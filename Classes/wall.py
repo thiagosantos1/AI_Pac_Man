@@ -48,6 +48,15 @@ class Wall(pygame.Rect):
 		self.vertical = False
 
 
+	def is_blocked(self, direction):
+		if ( (direction == 'e' or direction == 'w') and self.vertical == True):
+			return True
+		elif ( (direction == 's' or direction == 'n') and self.horizontal == True):
+			return True
+		else:
+			return False
+
+
 
 
 
