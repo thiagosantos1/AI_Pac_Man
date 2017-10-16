@@ -14,6 +14,7 @@ from tiles import *
 from character import *
 from survivor import *
 from interaction import interaction
+from bonus import *
 import random
 
 pygame.init()
@@ -145,6 +146,10 @@ while not done:
 
 	# move to the new direction, and also draw the player in the screen
 	survivor.update(screen,clock_elapsed_seconds)
+
+	Bonus.spawn(total_frames, FPS,survivor)
+
+	Bonus.update(screen,survivor)
  	
  	# update the total of frames
 	total_frames+=1

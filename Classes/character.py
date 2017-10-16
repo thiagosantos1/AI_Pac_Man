@@ -10,10 +10,19 @@ from wall import Wall
 
 class Character(pygame.Rect):
 
-	width = Tile.widthTile
-	height = Tile.heightTile
+	width_char = 0
+	height_char = 0
 
 	def __init__(self, x, y, tileNum, img):
+
+		width = Tile.widthTile 
+		height = Tile.heightTile
+
+		# not set yet
+		if Character.height_char  == 0 or Character.width_char ==0:
+
+			Character.width_char = width
+			Character.height_char = height
 
 		# each character is gonna have a variable to control next square to go on
 		# if it's empty, means no new goal
@@ -27,7 +36,7 @@ class Character(pygame.Rect):
 		self.img = img
 
 		#inherance from pygame rectange
-		pygame.Rect.__init__(self,x,y,Character.width, Character.height)
+		pygame.Rect.__init__(self,x,y,Character.width_char, Character.height_char)
 
 
 	def rotate(self, direction):

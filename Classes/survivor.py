@@ -11,12 +11,20 @@ class Survivor(Character):
 
 
 	survivor_img = pygame.image.load('../Images/Survivor/pac.png')
-
+	height_survivor = 0
+	width_survivor = 0
 	def __init__(self,tileNum): # revieces just the tile he wish to start at
 
 		self.original_img = Survivor.survivor_img
-		width = Tile.widthTile #- (Tile.widthTile * 0,20)
-		height = Tile.heightTile# - (Tile.heightTile * 0,15)
+		width = Tile.widthTile 
+		height = Tile.heightTile
+
+		# not set yet
+		if Survivor.height_survivor  == 0 or Survivor.width_survivor ==0:
+
+			Survivor.width_survivor = width
+			Survivor.height_survivor = height
+
 		self.original_img = pygame.transform.scale(self.original_img, (width,height ))
 
 		self.health  = 500 # if zombie gets him, he doesn't just die, he loses health
