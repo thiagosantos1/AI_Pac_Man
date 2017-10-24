@@ -28,7 +28,7 @@ class Bonus(pygame.Rect):
 	width_bonus  = 0
 	list_bonus	 = [] # holds all bonus to be draw and catched
 
-	bonusTimeGeneration = 2 # each 6 second, a new bonus will apear in the screen(after collected the last one)
+	bonusTimeGeneration = 0.5 # each 1 second, a new bonus will apear in the screen(after collected the last one)
 
 	def __init__(self,tileNum): #each tile you wanna to generate 
 
@@ -48,7 +48,7 @@ class Bonus(pygame.Rect):
 		self.img = Bonus.bonus_img[randint(0,13)]
 		self.img = pygame.transform.scale(self.img, (width,height ))
 		self.poits = 10
-		self.currently_tile = tileNum
+		self.currenTileNum = tileNum
 
 
 		# not set yet
@@ -92,21 +92,9 @@ class Bonus(pygame.Rect):
 			if bonus.colliderect(survivor):
 
 				survivor.score += bonus.poits
+				survivor.ready_to_set_goal = False # set new path to a new goal
 
 				Bonus.list_bonus.remove(bonus)
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
