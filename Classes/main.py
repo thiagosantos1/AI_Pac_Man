@@ -16,6 +16,11 @@ from survivor import *
 from interaction import interaction
 from bonus import *
 import random
+import sys
+from monster import *
+
+sys.setrecursionlimit(sys.getrecursionlimit() *4) # the default value is not enough if you wanna a maze of size >50
+
 
 pygame.init()
 
@@ -89,6 +94,9 @@ pygame.mouse.set_visible(False)
 maze = Maze(mazeSize,WIDTH,HEIGHT)
 
 survivor = Survivor(1) # each tile you wish the survivor to start at
+List_Zombies = [Monster( (mazeSize * mazeSize), 'DFS'), Monster( ((mazeSize/2) * (mazeSize/2) ), 'DFS'),
+				Monster( ((mazeSize * mazeSize) -mazeSize +1) , 'DFS'),
+				Monster( mazeSize , 'BFS')  ]
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
@@ -102,7 +110,7 @@ done = False
 while not done:
 
 	milliseconds = clock.tick(FPS)  # milliseconds passed since last frame
-	clock_elapsed_seconds = milliseconds / 1000.0 # seconds passed since last frame (float)
+	clock_elapsed_seconds = milliseconds / 10000.0 # seconds passed since last frame (float)
 
 	if total_frames ==0:
 		pygame.mixer.music.load('../Sound_Effects/welcome/welcome.wav')
@@ -124,13 +132,18 @@ while not done:
 			if event.key == pygame.K_g:
 				maze.resetMaze()
 				maze = Maze(mazeSize,WIDTH,HEIGHT)
+				Maze.resetTiles()
+				survivor.resetPath()
+				for monster in List_Zombies:
+					monster.reset_all_path()
 
 			
 
     # --- Game logic should go here
 
     # interaction method from Interaction class. It control all events from the game
-	interaction(screen, survivor)
+    # player can play as the robot if use this line
+	#interaction(screen, survivor)
  
     # --- Screen-clearing code goes here
  
@@ -146,6 +159,11 @@ while not done:
 
 	# move to the new direction, and also draw the player in the screen
 	survivor.update(screen,clock_elapsed_seconds)
+
+	#Monster.spawn(survivor,total_frames, FPS)
+	# move to the new direction, and also draw the monsters in the screen
+	for monster in List_Zombies:
+		monster.update(screen,clock_elapsed_seconds, survivor)
 
 	Bonus.spawn(total_frames, FPS,survivor)
 

@@ -177,6 +177,18 @@ class Maze(pygame.Rect):
 		Maze.size_maze =0
 		Maze.tilesMaze.clear()
 		Tile.reset()
+
+	@staticmethod
+	def resetTiles():
+		for tile in Maze.tilesMaze:
+			Maze.tilesMaze[tile].color = 'black'
+
+	@staticmethod
+	def get_size_maze():
+		return Maze.size_maze
+
+		
+
 		
 
 
