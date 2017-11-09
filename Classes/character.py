@@ -13,7 +13,7 @@ class Character(pygame.Rect):
 	width_char = 0
 	height_char = 0
 
-	def __init__(self, x, y, tileNum, img):
+	def __init__(self, x, y, tileNum, img, AI): # AI means which alg the charac is using
 
 		width = Tile.widthTile 
 		height = Tile.heightTile
@@ -34,6 +34,8 @@ class Character(pygame.Rect):
 		self.currenTileNum = tileNum;
 
 		self.img = img
+		
+		self.AI = AI # save what kind of AI the monster is gonna be implemented with
 
 		#inherance from pygame rectange
 		pygame.Rect.__init__(self,x,y,Character.width_char, Character.height_char)
@@ -81,10 +83,109 @@ class Character(pygame.Rect):
 			self.tx = tile.x
 			self.ty = tile.y
 
+	def get_tile_number(self):
+		return self.currenTileNum
+
+	def set_tile_number(self,new_tile):
+		self.currenTileNum = new_tile
+
+	# this method make the movement smotly, instead of move a whole position, we move part of, so then it's like we
+    # are walking in the path
+	def movement(self, clock_elapsed):
+
+		if self.tx != None and self.ty != None: # Target is set
+
+			X = self.x - self.tx
+			Y = self.y - self.ty
+
+			if X < 0: # --->
+				self.x += self.speed_x #* clock_elapsed
+			elif X > 0: # <----
+				self.x -= self.speed_x #* clock_elapsed
+
+			if Y > 0: # up
+				self.y -= self.speed_y #* clock_elapsed
+			elif Y < 0: # dopwn
+				self.y += self.speed_y #* clock_elapsed
+
+			if X == 0 and Y == 0:
+				self.tx, self.ty = None, None
+
+				self.set_tile_number(self.targetTileNumber)
+				self.targetTileNumber = None
+
+	# very similar to the set_Target - but in this case it sets automatictly 
+	# you already runned BFS or DFS to find the path, now you gonna update and move to next tile
+	def set_AI_target(self, search_type):
+
+		# Target is not set but there is a target to be set in the list
+		if self.tx == None and self.ty == None and len(self.list_target) >0: 
+			# get next tile # if wanna run in different algorithm, just have to 
+			# change how you get the tile in the list
+			# BFS saves the next target in the last position like a stack
+			# DFS is like a queue
+			#BFS - #target = self.list_target.pop(len(self.list_target)-1) 
+			#DFS - #target = self.list_target.pop(0) # end of the list
+			if search_type == 'BFS' or search_type == 'A_Star':
+				target = self.list_target.pop(len(self.list_target)-1) 
+			elif search_type == 'DFS_Dum':
+				target = self.list_target.pop(0) # end of the list
+			# set the direction to move forward
+			if self.currenTileNum +1 == Maze.tilesMaze[target].idTile:
+				self.rotate = 'e'
+			elif self.currenTileNum -1 == Maze.tilesMaze[target].idTile:
+				self.rotate = 'w'
+			elif self.currenTileNum - Maze.size_maze == Maze.tilesMaze[target].idTile:
+				self.rotate = 'n'
+
+			elif self.currenTileNum + Maze.size_maze == Maze.tilesMaze[target].idTile:
+				self.rotate = 's'
+
+			# based on the direction choosen to move, set a target to move
+			self.setTarget()
+
+
+	def setTarget(self):
+
+		# set target based on the direction you wanna to move forward
+		if(self.rotate == 'e'):
+			target = self.currenTileNum +1
+			if ( (target in range(1, len(Maze.tilesMaze) +1) ) and (target-1) % Maze.size_maze !=0 ):
+
+				if Maze.tilesMaze[self.currenTileNum].is_walkable('e'): # the currently that holds the right wall
+					self.targetTileNumber = target
+					self.set_x_y_target(Maze.tilesMaze[target]) # pass the tile you are wishing to go to
+
+		elif(self.rotate == 'w'):
+			target = self.currenTileNum - 1
+			if( (target in range(1, len(Maze.tilesMaze) +1) ) and target % Maze.size_maze !=0):
+
+				if Maze.tilesMaze[target].is_walkable('w'):
+					self.targetTileNumber = target
+					self.set_x_y_target(Maze.tilesMaze[target])
+
+		elif(self.rotate == 'n'):
+			target = self.currenTileNum - Maze.size_maze
+			if target in range(1, len(Maze.tilesMaze) +1):
+
+				if Maze.tilesMaze[target].is_walkable('n'):
+					self.targetTileNumber = target
+					self.set_x_y_target(Maze.tilesMaze[target])
+
+		elif(self.rotate == 's'):
+			target = self.currenTileNum + Maze.size_maze
+			if target in range(1, len(Maze.tilesMaze) +1):
+
+				if Maze.tilesMaze[self.currenTileNum].is_walkable('s'):
+					self.targetTileNumber = target
+					self.set_x_y_target(Maze.tilesMaze[target])
 	 
 
 
+	def resetPath(self):
 
+		self.ready_to_set_goal = False # not ready to go yet(path not calculated yer)
+		self.list_target.clear()
 
 
 

@@ -20,6 +20,10 @@ class Tile(pygame.Rect):
 		self.x = x
 		self.y = y
 
+		# used to heuristc function A*
+		self.G = 0
+		self.H = 0
+
 		Tile.total_tiles +=1
 
 		# not set yet

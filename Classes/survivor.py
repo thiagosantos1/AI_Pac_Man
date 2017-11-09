@@ -4,6 +4,9 @@ from random import randint
 from wall import Wall
 from character import Character
 from maze import Maze
+from BFS_path_finder import BFS_path_finder
+from DFS_path_finder import *
+from A_star_path import A_star_path
 
 # this class is just about the survivor, that is a character
 
@@ -13,7 +16,7 @@ class Survivor(Character):
 	survivor_img = pygame.image.load('../Images/Survivor/pac.png')
 	height_survivor = 0
 	width_survivor = 0
-	def __init__(self,tileNum): # revieces just the tile he wish to start at
+	def __init__(self,tileNum,AI): # revieces just the tile he wish to start at
 
 		self.original_img = Survivor.survivor_img
 		width = Tile.widthTile 
@@ -30,6 +33,7 @@ class Survivor(Character):
 		self.health  = 500 # if zombie gets him, he doesn't just die, he loses health
 		self.score   = 0
 		self.isAlive = True
+		self.monster_caught = -50 # monster caught survivor, then he loses 50 in his health
 
 		self.speed_x = Tile.widthTile//2 # speed per FPS player walk
 		self.speed_y = Tile.heightTile//2
@@ -37,12 +41,15 @@ class Survivor(Character):
 		self.direction = 'e' # starts facing east( rotates when move)
 		self.rotate    = None # if rotate is set, rotate then the img
 
+		self.list_target = list() # gonna sabe all future target untill a goal. calculate after run bfs
+		self.ready_to_set_goal = False # become true after run the algotihm and had fond a shortest path
+
 		#self.future_tile_number = None # wish of next tile to move for
 
 		x_rec = Maze.tilesMaze[tileNum].x
 		y_rec = Maze.tilesMaze[tileNum].y
 
-		super().__init__(x_rec,y_rec,tileNum, self.original_img)
+		super().__init__(x_rec,y_rec,tileNum, self.original_img,AI)
 
 
 	# draw and update the position of the player in the screen
@@ -53,68 +60,26 @@ class Survivor(Character):
 		# if we have a target set(move arrow), then move player
 		if self.tx != None and self.ty != None: 
 			self.movement(clock_elapsed)
+			self.resetPath() # calculate again after move on tile, in order to avoid monster
+
+		if not self.ready_to_set_goal and len(Bonus.list_bonus)>0 : # if path to the goal was not define yet
+			#BFS_path_finder(self, Bonus.list_bonus[0].currenTileNum )
+			#DFS_Dum_path_finder(self,Bonus.list_bonus[0].currently_tile)
+			if self.AI =='A_Star':
+				A_star_path(self, Bonus.list_bonus[0].currenTileNum )	
+		else:
+			if self.AI =='A_Star':
+				self.set_AI_target('A_Star')
+			#self.set_AI_target('BFS')
 
 		screen.blit(self.img, (self.x, self.y))
 
 
-	# this method make the movement smotly, instead of move a whole position, we move part of, so then it's like we
-    # are walking in the path
-	def movement(self, clock_elapsed):
+	def get_monster_caught(self):
+		return self.monster_caught
 
-		if self.tx != None and self.ty != None: # Target is set
 
-			X = self.x - self.tx
-			Y = self.y - self.ty
 
-			if X < 0: # --->
-				self.x += self.speed_x #* clock_elapsed
-			elif X > 0: # <----
-				self.x -= self.speed_x #* clock_elapsed
-
-			if Y > 0: # up
-				self.y -= self.speed_y #* clock_elapsed
-			elif Y < 0: # dopwn
-				self.y += self.speed_y #* clock_elapsed
-
-			if X == 0 and Y == 0:
-				self.tx, self.ty = None, None
-
-				self.currenTileNum = self.targetTileNumber
-				self.targetTileNumber = None
-
-	def setTarget(self):
-
-		if(self.rotate == 'e'):
-			target = self.currenTileNum +1
-			if ( (target in range(1, len(Maze.tilesMaze) +1) ) and (target-1) % Maze.size_maze !=0 ):
-
-				if Maze.tilesMaze[self.currenTileNum].is_walkable('e'): # the currently that holds the left wall
-					self.targetTileNumber = target
-					super().set_x_y_target(Maze.tilesMaze[target]) # pass the tile you are wishing to go to
-
-		elif(self.rotate == 'w'):
-			target = self.currenTileNum - 1
-			if( (target in range(1, len(Maze.tilesMaze) +1) ) and target % Maze.size_maze !=0):
-
-				if Maze.tilesMaze[target].is_walkable('w'):
-					self.targetTileNumber = target
-					super().set_x_y_target(Maze.tilesMaze[target])
-
-		elif(self.rotate == 'n'):
-			target = self.currenTileNum - Maze.size_maze
-			if target in range(1, len(Maze.tilesMaze) +1):
-
-				if Maze.tilesMaze[target].is_walkable('n'):
-					self.targetTileNumber = target
-					super().set_x_y_target(Maze.tilesMaze[target])
-
-		elif(self.rotate == 's'):
-			target = self.currenTileNum + Maze.size_maze
-			if target in range(1, len(Maze.tilesMaze) +1):
-
-				if Maze.tilesMaze[self.currenTileNum].is_walkable('s'):
-					self.targetTileNumber = target
-					super().set_x_y_target(Maze.tilesMaze[target])
 
 
 

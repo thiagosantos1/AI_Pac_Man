@@ -13,12 +13,14 @@ class Maze(pygame.Rect):
 	yPos = 0 
 	xPos = 0
 	size_maze =0
+	cost_walk = 10 # to move to each tile, has a cost of 10
 
 	def __init__(self,sizeMAze,WIDTH,HEIGHT):
 
 		Maze.widthMaze  = WIDTH
 		Maze.heightMaze = HEIGHT
 		Maze.size_maze = sizeMAze
+		Maze.cost_walk = 10
 		tileWidth = WIDTH//sizeMAze
 		tileHeight = HEIGHT // sizeMAze
 		# gonna make N * N maze, each position being a tile ID
@@ -177,6 +179,20 @@ class Maze(pygame.Rect):
 		Maze.size_maze =0
 		Maze.tilesMaze.clear()
 		Tile.reset()
+
+	@staticmethod # reset all titles to unvisited
+	def resetTiles():
+		for tile in Maze.tilesMaze:
+			Maze.tilesMaze[tile].color = 'black'
+			Maze.tilesMaze[tile].G     = 0
+			Maze.tilesMaze[tile].H     = 0
+
+	@staticmethod
+	def get_size_maze():
+		return Maze.size_maze
+
+		
+
 		
 
 
