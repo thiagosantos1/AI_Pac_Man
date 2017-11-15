@@ -24,7 +24,7 @@ def BFS_path_finder(character, goal):
 	#bonus = Bonus.list_bonus[0] # can be different in the future, in case there's more than 1 in the screen
 	for v in vertex.neighbors:
 		# check if is walkable first
-		if isWalkable(vertex.idTile,v):
+		if Maze.isWalkable(vertex.idTile,v):
 			queue.append(v) # add all neighbors to be explored
 			parent[v] = vertex.idTile # save where it came from
 
@@ -43,7 +43,7 @@ def BFS_path_finder(character, goal):
 		for v in node_visited.neighbors:
 			node_v = Maze.tilesMaze[v]
 
-			if node_v.color == 'black' and isWalkable(node_visited.idTile,v):
+			if node_v.color == 'black' and Maze.isWalkable(node_visited.idTile,v):
 
 				queue.append(v)
 				parent[v] = node_visited.idTile # save where it came from
@@ -65,35 +65,6 @@ def BFS_path_finder(character, goal):
 
 	character.ready_to_set_goal = True
 
-
-def isWalkable(tile_src, tile_dst):
-
-	if(tile_src+1 == tile_dst):
-		target = tile_src +1
-
-		if Maze.tilesMaze[tile_src].is_walkable('e'): # the currently that holds the right wall
-			return True
-
-	elif(tile_src -1 == tile_dst):
-		target = tile_src - 1
-
-		if Maze.tilesMaze[target].is_walkable('w'):
-			return True
-
-	elif(tile_src - Maze.size_maze == tile_dst):
-		target = tile_src - Maze.size_maze
-
-		if Maze.tilesMaze[target].is_walkable('n'):
-			return True
-
-	elif(tile_src + Maze.size_maze == tile_dst):
-
-		target = tile_src + Maze.size_maze
-
-		if Maze.tilesMaze[tile_src].is_walkable('s'):
-			return True
-
-	return False # is is not walkable
 
 
 

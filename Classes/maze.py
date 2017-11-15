@@ -55,7 +55,8 @@ class Maze(pygame.Rect):
 		# get a cell(node) randomly 
 		randomNode = random.randrange(sizeMAze*sizeMAze) + 1
 		self._generateMazeDFS( Maze.tilesMaze[randomNode ] )
-
+		#self._createMultiplePathsBFS( ) Not good, runs exponetial time by doing BFS from every node to all nodes
+		self._createMultiplePathsRandom( )
 	# for each cell on TilesMaze, we decide the neighbors of each one, and ask the tile to add his neighbor on its list of neighbors
 	def _setNeighbors(self,sizeMAze):
 		
@@ -164,6 +165,132 @@ class Maze(pygame.Rect):
 		vertex.color = 'blue'
 		vertex.finishedTime = Maze.timeExecuted
 		Maze.timeExecuted +=1
+
+	# pass if you wanna to avoid walls or not - At first yes cause you wanna find the shortest path avoinding wall
+	# Then, you not gonna avoid walls and find another path
+	# then backtrack and remove any wall with this new path
+	def _createMultiplePathsBFS(self ): 
+
+		# the idea e to find a path from A to B - avoinding wall
+		# then find a path from B to A, not avoind wall
+
+		for tileSrc in Maze.tilesMaze: # for each tile
+
+			for tileDest in Maze.tilesMaze: # calculate for all tiles
+				
+				if tileSrc != tileDest:
+					Maze.resetTiles() # reset all tiles to unvisetedd
+					firstPath = self._BFS(tileSrc,tileDest, True)
+					Maze.resetTiles() # reset all tiles to unvisetedd
+					# then set as visited for all nodes that make the path calculate in the first call
+					self._setPathVisited(tileSrc,tileDest,firstPath)
+					# then call again, not avoind wall, to find another wall
+					secondPath = self._BFS(tileSrc,tileDest, False)
+					self._removeNewWalls(tileSrc,tileDest,second)
+
+	# based on the first path calculated, gonna set all nodes used to that path
+	# to visited, so then calculate another path(alternative route)
+	def _setPathVisited(self,tileSrc,tileDest,path):
+		done = False
+		target = tileDest
+		while not done:
+			target = path[target]
+			if target != tileSrc:
+				Maze.tilesMaze[target].color = 'red'
+			else:
+				done = True
+
+	# receives the second path(that did not avoid walls - Then, gonna remove the walls)
+	def _removeNewWalls(tileSrc,tileDest,newPath):
+		return
+
+	# instead of using the method BFS, we just look at each node and check if there's more than 1 wall in that, then remove
+	# of of the wall
+	def _createMultiplePathsRandom(self ):
+		for key,value in Maze.tilesMaze.items():
+			if len(value.walls) >1: # if that tile holds more than 1 wall - remove one of then
+				self._removeWall(value,random.choice([True, False])) # random choose one of the wall - horizontal or vertical
+
+	def _BFS(self, src, dest, avoid_wall):
+
+		queue = list()
+		parent = {} # dictionary to save where each node came from
+
+		vertex = Maze.tilesMaze[src] # get currently tile
+
+		vertex.color = 'red'
+		parent[vertex.idTile] = -1 # starts at this node
+		done = False
+		#bonus = Bonus.list_bonus[0] # can be different in the future, in case there's more than 1 in the screen
+		for v in vertex.neighbors:
+			# check if is walkable first
+			if avoid_wall: # if has to avoid wall
+				if Maze.isWalkable(vertex.idTile,v):
+					queue.append(v) # add all neighbors to be explored
+					parent[v] = vertex.idTile # save where it came from
+			else:
+				queue.append(v) # add all neighbors to be explored
+				parent[v] = vertex.idTile # save where it came from
+
+		while not done:
+
+			vert = queue.pop(0)
+			node_visited = Maze.tilesMaze[vert]
+			node_visited.color = 'red'
+
+			# you found your goal
+			if vert == dest:
+				done = True
+				break
+
+			# search for the neighbors of the next node
+			for v in node_visited.neighbors:
+				node_v = Maze.tilesMaze[v]
+
+				if avoid_wall:
+					if node_v.color == 'black' and Maze.isWalkable(node_visited.idTile,v):
+
+						queue.append(v)
+						parent[v] = node_visited.idTile # save where it came from
+				elif node_v.color == 'black': # doesn't have to avoid wall( goona make another path)
+					queue.append(v)
+					parent[v] = node_visited.idTile # save where it came from
+
+			if len(queue) <=0:
+				done = True
+
+
+		return parent
+
+	@staticmethod
+	def isWalkable(tile_src, tile_dst):
+
+		if(tile_src+1 == tile_dst):
+			target = tile_src +1
+
+			if Maze.tilesMaze[tile_src].is_walkable('e'): # the currently that holds the right wall
+				return True
+
+		elif(tile_src -1 == tile_dst):
+			target = tile_src - 1
+
+			if Maze.tilesMaze[target].is_walkable('w'):
+				return True
+
+		elif(tile_src - Maze.size_maze == tile_dst):
+			target = tile_src - Maze.size_maze
+
+			if Maze.tilesMaze[target].is_walkable('n'):
+				return True
+
+		elif(tile_src + Maze.size_maze == tile_dst):
+
+			target = tile_src + Maze.size_maze
+
+			if Maze.tilesMaze[tile_src].is_walkable('s'):
+				return True
+
+		return False # is is not walkable
 
 	def _removeWall(self, vertex, direVertical):
 

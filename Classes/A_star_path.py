@@ -60,7 +60,7 @@ def A_star_path_generator(character, goal, avoidGhost): # returns a dictionary w
 
 	for v in vertex.neighbors:
 		# check if is walkable first
-		if isWalkable(vertex.idTile,v):
+		if Maze.isWalkable(vertex.idTile,v):
 			queue.append(v) # add all neighbors to be explored
 			parent[v] = vertex.idTile # save where it came from
 			# get the g(n) of that tile
@@ -90,7 +90,7 @@ def A_star_path_generator(character, goal, avoidGhost): # returns a dictionary w
 
 			if avoidGhost:
 				# if not on queue to be explored, to add, as well it g and h cost
-				if node_v.color == 'black' and isWalkable(node_visited.idTile,v) and there_is_not_monster(v):
+				if node_v.color == 'black' and Maze.isWalkable(node_visited.idTile,v) and there_is_not_monster(v):
 					queue.append(v)
 					parent[v] = node_visited.idTile # save where it came from
 					Maze.tilesMaze[v].G = get_G_value(vertex)
@@ -98,7 +98,7 @@ def A_star_path_generator(character, goal, avoidGhost): # returns a dictionary w
 					heuristic_cost[v] = get_F_value(Maze.tilesMaze[v])
 
 				# if it's already on queue, check if the g(n) is better(smaller) or not, if so, set as new path
-				elif node_v.color == 'red' and isWalkable(node_visited.idTile,v) and there_is_not_monster(v):
+				elif node_v.color == 'red' and Maze.isWalkable(node_visited.idTile,v) and there_is_not_monster(v):
 					if get_G_value(vertex) < Maze.tilesMaze[v].G:
 						# update then the new path
 						parent[v] = node_visited.idTile # save where it came from
@@ -107,7 +107,7 @@ def A_star_path_generator(character, goal, avoidGhost): # returns a dictionary w
 						heuristic_cost[v] = get_F_value(Maze.tilesMaze[v])
 			else:
 				# if not on queue to be explored, to add, as well it g and h cost
-				if node_v.color == 'black' and isWalkable(node_visited.idTile,v):
+				if node_v.color == 'black' and Maze.isWalkable(node_visited.idTile,v):
 					queue.append(v)
 					parent[v] = node_visited.idTile # save where it came from
 					Maze.tilesMaze[v].G = get_G_value(vertex)
@@ -115,7 +115,7 @@ def A_star_path_generator(character, goal, avoidGhost): # returns a dictionary w
 					heuristic_cost[v] = get_F_value(Maze.tilesMaze[v])
 
 				# if it's already on queue, check if the g(n) is better(smaller) or not, if so, set as new path
-				elif node_v.color == 'red' and isWalkable(node_visited.idTile,v):
+				elif node_v.color == 'red' and Maze.isWalkable(node_visited.idTile,v):
 					if get_G_value(vertex) < Maze.tilesMaze[v].G:
 						# update then the new path
 						parent[v] = node_visited.idTile # save where it came from
@@ -139,36 +139,6 @@ def get_H_value(vertex, goal):
 
 def get_F_value(vertex):
 	return vertex.G + vertex.H
-
-def isWalkable(tile_src, tile_dst):
-
-	if(tile_src+1 == tile_dst):
-		target = tile_src +1
-
-		if Maze.tilesMaze[tile_src].is_walkable('e'): # the currently that holds the right wall
-			return True
-
-	elif(tile_src -1 == tile_dst):
-		target = tile_src - 1
-
-		if Maze.tilesMaze[target].is_walkable('w'):
-			return True
-
-	elif(tile_src - Maze.size_maze == tile_dst):
-		target = tile_src - Maze.size_maze
-
-		if Maze.tilesMaze[target].is_walkable('n'):
-			return True
-
-	elif(tile_src + Maze.size_maze == tile_dst):
-
-		target = tile_src + Maze.size_maze
-
-		if Maze.tilesMaze[tile_src].is_walkable('s'):
-			return True
-
-	return False # is is not walkable
-
 
 def there_is_not_monster(tile_dst):
 

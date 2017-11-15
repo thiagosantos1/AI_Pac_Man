@@ -45,7 +45,7 @@ def DFS_Dum(vertex, goal):
 
 	for v in vertex.neighbors:
 		node_v = Maze.tilesMaze[v]
-		if node_v.color == 'black' and isWalkable(vertex.idTile,v) and not done:
+		if node_v.color == 'black' and Maze.isWalkable(vertex.idTile,v) and not done:
 			path_to_take.append(v) # add the node you're going to
 			DFS_Dum(node_v,goal)
 
@@ -53,34 +53,4 @@ def DFS_Dum(vertex, goal):
 
 	vertex.color = 'blue' # if reaches here, means you go all neighbors of that node
 
-
-
-def isWalkable(tile_src, tile_dst):
-
-	if(tile_src+1 == tile_dst):
-		target = tile_src +1
-
-		if Maze.tilesMaze[tile_src].is_walkable('e'): # the currently that holds the right wall
-			return True
-
-	elif(tile_src -1 == tile_dst):
-		target = tile_src - 1
-
-		if Maze.tilesMaze[target].is_walkable('w'):
-			return True
-
-	elif(tile_src - Maze.size_maze == tile_dst):
-		target = tile_src - Maze.size_maze
-
-		if Maze.tilesMaze[target].is_walkable('n'):
-			return True
-
-	elif(tile_src + Maze.size_maze == tile_dst):
-
-		target = tile_src + Maze.size_maze
-
-		if Maze.tilesMaze[tile_src].is_walkable('s'):
-			return True
-
-	return False # is is not walkable
 
