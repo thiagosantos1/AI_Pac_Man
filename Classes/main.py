@@ -96,8 +96,8 @@ maze = Maze(mazeSize,WIDTH,HEIGHT)
 survivor = Survivor(1,"A_Star") # each tile you wish the survivor to start at
 # create all monster
 # can make it better and do random, later
-Monster( (mazeSize * mazeSize), 'DFS'), Monster( ((mazeSize//2) * (mazeSize//2) ), 'DFS')
-Monster( ((mazeSize * mazeSize) -mazeSize +1) , 'DFS')
+#Monster( (mazeSize * mazeSize), 'DFS'), Monster( ((mazeSize//2) * (mazeSize//2) ), 'DFS')
+#Monster( ((mazeSize * mazeSize) -mazeSize +1) , 'DFS')
 Monster( mazeSize , 'BFS')  
 
 # Used to manage how fast the screen updates

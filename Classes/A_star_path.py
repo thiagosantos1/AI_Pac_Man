@@ -16,7 +16,35 @@ from monster import Monster
 
 # every chacacter in our game has to avoid the mosters in their path, even monster itself(they can't overlap)
 # thus, besides avoiding the all, the must also avoid monsters
+
+# gonna create two versions
+# one trys to find a path avoiding ghost
+# second one find a path with ghost, if there is no other option
 def A_star_path(character, goal):
+
+	parent = {}
+	paretnt = A_star_path_generator(character, goal, True)
+
+	# if did't find a path avoind all ghosts
+	if goal not in parent:
+		parent.clear()
+		parent = A_star_path_generator(character, goal, False) # then calculate one without thinking about the ghost
+
+	# then set the nodes to character to visit
+	done = False
+	target = goal
+	character.list_target.append(target)
+	while not done:
+		target = parent[target]
+		if target != character.currenTileNum:
+			character.list_target.append(target)
+		else:
+			done = True
+
+	character.ready_to_set_goal = True
+
+
+def A_star_path_generator(character, goal, avoidGhost): # returns a dictionary with the path
 
 	queue = list()
 	parent = {} # dictionary to save where each node came from
@@ -59,40 +87,47 @@ def A_star_path(character, goal):
 		# search for the neighbors of the next node
 		for v in node_visited.neighbors:
 			node_v = Maze.tilesMaze[v]
-			# if not on queue to be explored, to add, as well it g and h cost
-			if node_v.color == 'black' and isWalkable(node_visited.idTile,v):# and there_is_not_monster(v):
-				queue.append(v)
-				parent[v] = node_visited.idTile # save where it came from
-				Maze.tilesMaze[v].G = get_G_value(vertex)
-				Maze.tilesMaze[v].H = get_H_value(Maze.tilesMaze[v],Maze.tilesMaze[goal])
-				heuristic_cost[v] = get_F_value(Maze.tilesMaze[v])
 
-			# if it's already on queue, check if the g(n) is better(smaller) or not, if so, set as new path
-			elif node_v.color == 'red' and isWalkable(node_visited.idTile,v):# and there_is_not_monster(v):
-				if get_G_value(vertex) < Maze.tilesMaze[v].G:
-					# update then the new path
+			if avoidGhost:
+				# if not on queue to be explored, to add, as well it g and h cost
+				if node_v.color == 'black' and isWalkable(node_visited.idTile,v) and there_is_not_monster(v):
+					queue.append(v)
 					parent[v] = node_visited.idTile # save where it came from
 					Maze.tilesMaze[v].G = get_G_value(vertex)
 					Maze.tilesMaze[v].H = get_H_value(Maze.tilesMaze[v],Maze.tilesMaze[goal])
 					heuristic_cost[v] = get_F_value(Maze.tilesMaze[v])
 
+				# if it's already on queue, check if the g(n) is better(smaller) or not, if so, set as new path
+				elif node_v.color == 'red' and isWalkable(node_visited.idTile,v) and there_is_not_monster(v):
+					if get_G_value(vertex) < Maze.tilesMaze[v].G:
+						# update then the new path
+						parent[v] = node_visited.idTile # save where it came from
+						Maze.tilesMaze[v].G = get_G_value(vertex)
+						Maze.tilesMaze[v].H = get_H_value(Maze.tilesMaze[v],Maze.tilesMaze[goal])
+						heuristic_cost[v] = get_F_value(Maze.tilesMaze[v])
+			else:
+				# if not on queue to be explored, to add, as well it g and h cost
+				if node_v.color == 'black' and isWalkable(node_visited.idTile,v):
+					queue.append(v)
+					parent[v] = node_visited.idTile # save where it came from
+					Maze.tilesMaze[v].G = get_G_value(vertex)
+					Maze.tilesMaze[v].H = get_H_value(Maze.tilesMaze[v],Maze.tilesMaze[goal])
+					heuristic_cost[v] = get_F_value(Maze.tilesMaze[v])
+
+				# if it's already on queue, check if the g(n) is better(smaller) or not, if so, set as new path
+				elif node_v.color == 'red' and isWalkable(node_visited.idTile,v):
+					if get_G_value(vertex) < Maze.tilesMaze[v].G:
+						# update then the new path
+						parent[v] = node_visited.idTile # save where it came from
+						Maze.tilesMaze[v].G = get_G_value(vertex)
+						Maze.tilesMaze[v].H = get_H_value(Maze.tilesMaze[v],Maze.tilesMaze[goal])
+						heuristic_cost[v] = get_F_value(Maze.tilesMaze[v])
+
 		#search is done
 		if len(queue) <=0:
-			print("end")
 			done = True
 
-	# then set the nodes to character to visit
-	done = False
-	target = goal
-	character.list_target.append(target)
-	while not done:
-		target = parent[target]
-		if target != character.currenTileNum:
-			character.list_target.append(target)
-		else:
-			done = True
-
-	character.ready_to_set_goal = True
+	return parent
 
 
 def get_G_value(vertex):

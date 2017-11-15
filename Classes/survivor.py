@@ -1,12 +1,13 @@
 import pygame
 from tiles import Tile
 from random import randint
-from wall import Wall
+from wall import Wall 
 from character import Character
 from maze import Maze
 from BFS_path_finder import BFS_path_finder
 from DFS_path_finder import *
 from A_star_path import A_star_path
+from monster import Monster
 
 # this class is just about the survivor, that is a character
 
@@ -60,23 +61,58 @@ class Survivor(Character):
 		# if we have a target set(move arrow), then move player
 		if self.tx != None and self.ty != None: 
 			self.movement(clock_elapsed)
-			self.resetPath() # calculate again after move on tile, in order to avoid monster
+			# if uncomment this line, it then calculates the path after every single move
+			# to then avoid all ghosts - But it cost (become slow)
+			#self.resetPath() # calculate again after move on tile, in order to avoid monster
 
 		if not self.ready_to_set_goal and len(Bonus.list_bonus)>0 : # if path to the goal was not define yet
 			#BFS_path_finder(self, Bonus.list_bonus[0].currenTileNum )
 			#DFS_Dum_path_finder(self,Bonus.list_bonus[0].currently_tile)
 			if self.AI =='A_Star':
-				A_star_path(self, Bonus.list_bonus[0].currenTileNum )	
+				A_star_path(self, Bonus.list_bonus[0].currenTileNum )
 		else:
-			if self.AI =='A_Star':
-				self.set_AI_target('A_Star')
-			#self.set_AI_target('BFS')
+			# you gonna set next target, only and only if next target is not a ghost
+			if len(self.list_target) >0:
+				if not self.is_there_a_ghost(self.getNexTargetsTile()): # if there is not a ghost in the next target
+					if self.AI =='A_Star':
+						self.set_AI_target('A_Star')
+					#self.set_AI_target('BFS')
+				else: #there is a gost next tile
+					# then, recalculate the A* path
+					# if returns False(Cannot find a path), agent can then shoot and kill ghost(lose points)
+					# if returns true, you can update again, reseting the path self.resetPath()
+					print("yes", self.getNexTargetsTile())
+					print(self.list_target)
 
 		screen.blit(self.img, (self.x, self.y))
 
 
 	def get_monster_caught(self):
 		return self.monster_caught
+	# get next 2 targets tile(if there is)
+	# it returns 2 because  the problem is that next target may be a ghost, but the ghost updates first, 
+	# then when robot updates it's not a ghost anymore
+	def getNexTargetsTile(self):
+		if self.AI == "A_Star" or self.AI == "BFS":
+			if len(self.list_target) <2:
+				return [ self.list_target[len(self.list_target)-1] ]
+			# if not, return next 2 targets
+			return [ self.list_target[len(self.list_target)-1], self.list_target[len(self.list_target)-2] ]
+
+		if self.AI == "DFS" or self.AI == "DFS_Dum":
+			if len(self.list_target) <2:
+				return [ self.list_target[0] ]
+
+			return [ self.list_target[0], self.list_target[1] ]
+
+	def is_there_a_ghost(self,nexTiles):
+
+		for ghost in Monster.List_Monster:
+			for tile in nexTiles:
+				if ghost.currenTileNum == tile:
+					return True
+
+		return False
 
 
 

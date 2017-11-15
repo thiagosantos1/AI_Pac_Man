@@ -1,5 +1,5 @@
 import pygame
-from tiles import Tile
+from tiles import Tile 
 from maze import Maze
 from random import randint
 from wall import Wall
@@ -128,7 +128,7 @@ class Character(pygame.Rect):
 			#DFS - #target = self.list_target.pop(0) # end of the list
 			if search_type == 'BFS' or search_type == 'A_Star':
 				target = self.list_target.pop(len(self.list_target)-1) 
-			elif search_type == 'DFS_Dum':
+			elif search_type == 'DFS_Dum' or search_type == 'DFS':
 				target = self.list_target.pop(0) # end of the list
 			# set the direction to move forward
 			if self.currenTileNum +1 == Maze.tilesMaze[target].idTile:
