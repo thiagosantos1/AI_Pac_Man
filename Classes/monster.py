@@ -8,6 +8,7 @@ from maze import Maze
 from BFS_path_finder import BFS_path_finder
 from DFS_path_finder import *
 from survivor import *
+from A_star_path import A_star_path
 
 class Monster(Character):
 
@@ -93,15 +94,20 @@ class Monster(Character):
 			self.movement(clock_elapsed)
 
 		if not self.ready_to_set_goal and len(Bonus.list_bonus)>0: # if path to the goal was not define yet
-			if self.AI =='BFS' and (survivor.get_tile_number() != self.get_tile_number() ):
-				BFS_path_finder(self,survivor.get_tile_number())
-			elif survivor.get_tile_number() != self.get_tile_number():
-				DFS_Dum_path_finder(self, survivor.get_tile_number())
+			if survivor.get_tile_number() != self.get_tile_number() :
+				if self.AI =='BFS': 
+					BFS_path_finder(self,survivor.get_tile_number(),Monster.List_Monster)
+				elif self.AI =='DFS':
+					DFS_Dum_path_finder(self, survivor.get_tile_number())
+				elif self.AI =='A_Star':
+					A_star_path(self, survivor.get_tile_number(),Monster.List_Monster)
 		else:
 			if self.AI =='BFS':
 				self.set_AI_target('BFS')
-			else:
+			elif self.AI =='DFS':
 				self.set_AI_target('DFS_Dum')
+			elif self.AI =='A_Star':
+						self.set_AI_target('A_Star')
 
 		# then draw the zombies
 		screen.blit(self.img, (self.x, self.y))

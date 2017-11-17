@@ -66,57 +66,102 @@ class Survivor(Character):
 			#self.resetPath() # calculate again after move on tile, in order to avoid monster
 
 		if not self.ready_to_set_goal and len(Bonus.list_bonus)>0 : # if path to the goal was not define yet
-			#BFS_path_finder(self, Bonus.list_bonus[0].currenTileNum )
-			#DFS_Dum_path_finder(self,Bonus.list_bonus[0].currently_tile)
 			if self.AI =='A_Star':
-				A_star_path(self, Bonus.list_bonus[0].currenTileNum )
+				A_star_path(self, Bonus.list_bonus[0].currenTileNum,Monster.List_Monster )
+			elif self.AI =='BFS':
+				BFS_path_finder(self, Bonus.list_bonus[0].currenTileNum, Monster.List_Monster )
+
+			elif self.AI =='DFS':
+				DFS_Dum_path_finder(self,Bonus.list_bonus[0].currenTileNum)
 		else:
 			# you gonna set next target, only and only if next target is not a ghost
 			if len(self.list_target) >0:
-				if not self.is_there_a_ghost(self.getNexTargetsTile()): # if there is not a ghost in the next target
+				if not self.is_there_a_ghost(self.getNexTargetTiles()): # if there is not a ghost in the next target
 					if self.AI =='A_Star':
 						self.set_AI_target('A_Star')
-					#self.set_AI_target('BFS')
+					elif self.AI =='BFS':
+						self.set_AI_target('BFS')
+					elif self.AI =='DFS':
+						self.set_AI_target('DFS')
+
 				else: #there is a gost next tile
 					# then, recalculate the A* path
 					# if returns False(Cannot find a path), agent can then shoot and kill ghost(lose points)
 					# if returns true, you can update again, reseting the path self.resetPath()
-					print("yes", self.getNexTargetsTile())
-					print(self.list_target)
+					print("yes", self.getNexTargetTiles())
+					print("Before ",self.list_target)
+					for ghost in Monster.List_Monster:
+						print("Ghost ", ghost.currenTileNum)
+					self.resetPath() # when reset, you still calculate the same path, cause there's no ghost until it moves
+					print("After ",self.list_target)
 
 		screen.blit(self.img, (self.x, self.y))
-
 
 	def get_monster_caught(self):
 		return self.monster_caught
 	# get next 2 targets tile(if there is)
 	# it returns 2 because  the problem is that next target may be a ghost, but the ghost updates first, 
 	# then when robot updates it's not a ghost anymore
-	def getNexTargetsTile(self):
+	def getNexTargetTiles(self):
 		if self.AI == "A_Star" or self.AI == "BFS":
-			if len(self.list_target) <2:
-				return [ self.list_target[len(self.list_target)-1] ]
-			# if not, return next 2 targets
-			return [ self.list_target[len(self.list_target)-1], self.list_target[len(self.list_target)-2] ]
+			if len(self.list_target) >=2:
+				return [ self.list_target[len(self.list_target)-1], self.list_target[len(self.list_target)-2]  ]
+			return [ self.list_target[len(self.list_target)-1] ]
 
 		if self.AI == "DFS" or self.AI == "DFS_Dum":
-			if len(self.list_target) <2:
-				return [ self.list_target[0] ]
+			if len(self.list_target) >=2:
+				return [ self.list_target[0], self.list_target[1] ]
+			return [ self.list_target[0] ]
 
-			return [ self.list_target[0], self.list_target[1] ]
-
+	# checks if there's a ghost around the next target
+	# if so, it must take another path(not take risk)
 	def is_there_a_ghost(self,nexTiles):
 
 		for ghost in Monster.List_Monster:
 			for tile in nexTiles:
-				if ghost.currenTileNum == tile:
+				if ghost.currenTileNum == tile or self.is_there_ghost_souround_tile(tile):
 					return True
 
 		return False
 
+	# checks if there is a ghost souround that tile - If you can walk from that tile to next tile
+	def is_there_ghost_souround_tile(self, tile):
+
+		target = tile
+
+		if ( (target in range(1, len(Maze.tilesMaze) +1) ) ):
+			
+			for ghost in Monster.List_Monster:
+
+				# east
+				target = tile +1   # if cann walk in that direction - not outside of the border
+				if ((target-1) % Maze.size_maze !=0 ): # if can go for that position
+					if Maze.tilesMaze[tile].is_walkable('e'): # if walkable, then check if there's a ghost there
+						if ghost.currenTileNum == target: # there is a ghost at that potential move
+							return True 
+
+				# west
+				target = tile -1
+				if target % Maze.size_maze !=0: # if can go for that position
+					if Maze.tilesMaze[target].is_walkable('w'): 
+						if ghost.currenTileNum == target: # there is a ghost at that potential move
+							return True 
+
+				# nourth
+				target = tile - Maze.size_maze
+				if target >0: # if can go for that position
+					if Maze.tilesMaze[target].is_walkable('n'): 
+						if ghost.currenTileNum == target: # there is a ghost at that potential move
+							return True 
+
+				#south
+				target = tile + Maze.size_maze
+				if target <= Maze.size_maze: # if can go for that position
+					if Maze.tilesMaze[tile].is_walkable('s'): 
+						if ghost.currenTileNum == target: # there is a ghost at that potential move
+							return True 
 
 
-
-
+		return False # there's no ghost souround that tile, it's okay ta walk
 
 

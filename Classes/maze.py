@@ -169,7 +169,7 @@ class Maze(pygame.Rect):
 	# pass if you wanna to avoid walls or not - At first yes cause you wanna find the shortest path avoinding wall
 	# Then, you not gonna avoid walls and find another path
 	# then backtrack and remove any wall with this new path
-	def _createMultiplePathsBFS(self ): 
+	def _createMultiplePathsBFS(self ): # not using
 
 		# the idea e to find a path from A to B - avoinding wall
 		# then find a path from B to A, not avoind wall
@@ -190,7 +190,7 @@ class Maze(pygame.Rect):
 
 	# based on the first path calculated, gonna set all nodes used to that path
 	# to visited, so then calculate another path(alternative route)
-	def _setPathVisited(self,tileSrc,tileDest,path):
+	def _setPathVisited(self,tileSrc,tileDest,path): # not using 
 		done = False
 		target = tileDest
 		while not done:
@@ -201,7 +201,7 @@ class Maze(pygame.Rect):
 				done = True
 
 	# receives the second path(that did not avoid walls - Then, gonna remove the walls)
-	def _removeNewWalls(tileSrc,tileDest,newPath):
+	def _removeNewWalls(tileSrc,tileDest,newPath): # not using
 		return
 
 	# instead of using the method BFS, we just look at each node and check if there's more than 1 wall in that, then remove
