@@ -82,6 +82,9 @@ def A_star_path_generator(character, goal, avoid_agents, avoidGhost): # returns 
 
 	# runs A star
 	while not done:
+		if not heuristic_cost:
+			done = True
+			break
 		# get the vertex with min heurist value on heuristic_cost
 		min_key= (min(heuristic_cost.items(), key=lambda x: x[1]) )[0]
 		queue.remove(min_key)

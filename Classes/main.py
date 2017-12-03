@@ -97,10 +97,30 @@ maze = Maze(mazeSize,WIDTH,HEIGHT)
 survivor = Survivor(1,"A_Star") # each tile you wish the survivor to start at
 # create all monster
 # can make it better and do random, later
-Monster( (mazeSize * mazeSize), 'DFS')
-Monster( ((mazeSize//2) * (mazeSize//2) ), 'DFS')
-Monster( ((mazeSize * mazeSize) -mazeSize +1) , 'DFS')
-Monster( mazeSize , 'BFS')  
+monster_per_block = 10 # 1 monster for each 10 squares - Maximum is 6 monsters
+qtd_monsters = mazeSize - monster_per_block
+Monster( mazeSize , 'BFS') # must have at least one
+if qtd_monsters >= monster_per_block:
+	Monster( (mazeSize * mazeSize), 'DFS')
+	qtd_monsters = qtd_monsters - monster_per_block
+
+if qtd_monsters >= monster_per_block:
+	Monster( ((mazeSize//2) * (mazeSize//2) ), 'DFS')
+	qtd_monsters = qtd_monsters - monster_per_block
+
+if qtd_monsters >= monster_per_block:
+	Monster( ((mazeSize * mazeSize) -mazeSize +1) , 'DFS')
+	qtd_monsters = qtd_monsters - monster_per_block
+
+if qtd_monsters >= monster_per_block:
+	Monster( ((mazeSize * (mazeSize//2)) -(mazeSize -1)) , 'DFS')
+	qtd_monsters = qtd_monsters - monster_per_block
+
+if qtd_monsters >= monster_per_block:
+	Monster( ((mazeSize * (mazeSize//2)) -(mazeSize//2)) , 'DFS')
+
+
+
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
