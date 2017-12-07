@@ -1,3 +1,6 @@
+# Copyright by Thiago Santos
+# All rights reserved
+
 import pygame
 
 # each tile can have more than one wall

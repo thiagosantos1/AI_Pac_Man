@@ -1,3 +1,6 @@
+# Copyright by Thiago Santos
+# All rights reserved
+
 import pygame
 from tiles import Tile
 from random import randint
@@ -16,8 +19,8 @@ class Survivor(Character):
 
 	survivor_img = pygame.image.load('../Images/Survivor/pac.png')
 	height_survivor = 0
-	width_survivor = 0
-	def __init__(self,tileNum,AI): # revieces just the tile he wish to start at
+	width_survivor = 0			
+	def __init__(self,tileNum,AI, gameMode): # revieces just the tile he wish to start at
 
 		self.original_img = Survivor.survivor_img
 		width = Tile.widthTile 
@@ -31,10 +34,11 @@ class Survivor(Character):
 
 		self.original_img = pygame.transform.scale(self.original_img, (width,height ))
 
-		self.health  = 500 # if zombie gets him, he doesn't just die, he loses health
+		self.health  = 200 # if zombie gets him, he doesn't just die, he loses health
 		self.score   = 0
 		self.isAlive = True
-		self.monster_caught = -50 # monster caught survivor, then he loses 50 in his health
+		self.monster_caught = 50 # monster caught survivor, then he loses 50 in his health
+		self.gameMode = gameMode # AI means computer plays - player means somebody is playing
 
 		self.speed_x = Tile.widthTile//2 # speed per FPS player walk
 		self.speed_y = Tile.heightTile//2
@@ -65,35 +69,31 @@ class Survivor(Character):
 			# to then avoid all ghosts - But it cost (become slow)
 			#self.resetPath() # calculate again after move on tile, in order to avoid monster
 
-		if not self.ready_to_set_goal and len(Bonus.list_bonus)>0 : # if path to the goal was not define yet
-			if self.AI =='A_Star':
-				A_star_path(self, Bonus.list_bonus[0].currenTileNum,Monster.List_Monster )
-			elif self.AI =='BFS':
-				BFS_path_finder(self, Bonus.list_bonus[0].currenTileNum, Monster.List_Monster )
+		if self.gameMode == "AI":
+			if not self.ready_to_set_goal and len(Bonus.list_bonus)>0 : # if path to the goal was not define yet
+				if self.AI =='A_Star':
+					A_star_path(self, Bonus.list_bonus[0].currenTileNum,Monster.List_Monster )
+				elif self.AI =='BFS':
+					BFS_path_finder(self, Bonus.list_bonus[0].currenTileNum, Monster.List_Monster )
 
-			elif self.AI =='DFS':
-				DFS_Dum_path_finder(self,Bonus.list_bonus[0].currenTileNum)
-		else:
-			# you gonna set next target, only and only if next target is not a ghost
-			if len(self.list_target) >0:
-				if not self.is_there_a_ghost(self.getNexTargetTiles()): # if there is not a ghost in the next target
-					if self.AI =='A_Star':
-						self.set_AI_target('A_Star')
-					elif self.AI =='BFS':
-						self.set_AI_target('BFS')
-					elif self.AI =='DFS':
-						self.set_AI_target('DFS')
+				elif self.AI =='DFS':
+					DFS_Dum_path_finder(self,Bonus.list_bonus[0].currenTileNum)
+			else:
+				# you gonna set next target, only and only if next target is not a ghost
+				if len(self.list_target) >0:
+					if not self.is_there_a_ghost(self.getNexTargetTiles()): # if there is not a ghost in the next target
+						if self.AI =='A_Star':
+							self.set_AI_target('A_Star')
+						elif self.AI =='BFS':
+							self.set_AI_target('BFS')
+						elif self.AI =='DFS':
+							self.set_AI_target('DFS')
 
-				else: #there is a gost next tile
-					# then, recalculate the A* path
-					# if returns False(Cannot find a path), agent can then shoot and kill ghost(lose points)
-					# if returns true, you can update again, reseting the path self.resetPath()
-					print("yes", self.getNexTargetTiles())
-					print("Before ",self.list_target)
-					for ghost in Monster.List_Monster:
-						print("Ghost ", ghost.currenTileNum)
-					self.resetPath() # when reset, you still calculate the same path, cause there's no ghost until it moves
-					print("After ",self.list_target)
+					else: #there is a gost next tile
+						# then, recalculate the A* path
+						# if returns False(Cannot find a path), agent can then shoot and kill ghost(lose points)
+						# if returns true, you can update again, reseting the path self.resetPath()
+						self.resetPath() # when reset, you still calculate the same path, cause there's no ghost until it moves
 
 		screen.blit(self.img, (self.x, self.y))
 

@@ -1,3 +1,6 @@
+# Copyright by Thiago Santos
+# All rights reserved
+
 import pygame
 from tiles import Tile
 from random import randint

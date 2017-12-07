@@ -18,6 +18,7 @@ from bonus import *
 import random
 import sys
 from monster import *
+import DisplayText  # class to display any text on screen
 
 sys.setrecursionlimit(sys.getrecursionlimit() *4) # the default value is not enough if you wanna a maze of size >50
 
@@ -58,8 +59,10 @@ while backgroundColor == mazeColor:
 	backgroundColor = random.randrange(0,len(list_colors))
 
 
-
-mazeSize = int(input("Please, enter the size of the Maze(it's N*N): "))
+mazeSize = 0
+game_mode = "AI" # player is gonna choose to play or put PC to play
+while(mazeSize <10):
+	mazeSize = int(input("Please, enter the size of the Maze(it's N*N) >=10: "))
 
 tileWidth = WIDTH // mazeSize
 
@@ -93,8 +96,11 @@ pygame.mouse.set_visible(False)
 
 maze = Maze(mazeSize,WIDTH,HEIGHT)
 
+mode = input("\nDo you wanna to play as the robot(Y/N) ? - No means AI will play as both mode\nChoise: ").upper()
+if mode == 'Y' or mode =="YES":
+	game_mode = "player"
 #survivor = Survivor(1,"BFS") # each tile you wish the survivor to start at
-survivor = Survivor(1,"A_Star") # each tile you wish the survivor to start at
+survivor = Survivor(1,"A_Star",game_mode) # each tile you wish the survivor to start at
 # create all monster
 # can make it better and do random, later
 monster_per_block = 10 # 1 monster for each 10 squares - Maximum is 6 monsters
@@ -160,7 +166,9 @@ while not done:
 				survivor.resetPath()
 				for monster in Monster.List_Monster:
 					monster.reset_all_path()
-
+	if survivor.gameMode != "AI" and survivor.isAlive:
+		if len(Bonus.list_bonus)>0 :
+			interaction(screen, survivor)
 			
 
     # --- Game logic should go here
@@ -181,18 +189,27 @@ while not done:
     # --- Drawing code should go here
 	maze.draw_maze(screen,list_colors[mazeColor])
 
-	# move to the new direction, and also draw the player in the screen
-	survivor.update(screen,clock_elapsed_seconds)
+	if survivor.isAlive:
+		# move to the new direction, and also draw the player in the screen
+		survivor.update(screen,clock_elapsed_seconds)
 
-	#Monster.spawn(survivor,total_frames, FPS)
-	# move to the new direction, and also draw the monsters in the screen
-	for monster in Monster.List_Monster:
-		monster.update(screen,clock_elapsed_seconds, survivor)
+		#Monster.spawn(survivor,total_frames, FPS)
+		# move to the new direction, and also draw the monsters in the screen
+		for monster in Monster.List_Monster:
+			monster.update(screen,clock_elapsed_seconds, survivor)
 
-	Bonus.spawn(total_frames, FPS,survivor)
+		Bonus.spawn(total_frames, FPS,survivor)
 
-	Bonus.update(screen,survivor)
- 	
+		Bonus.update(screen,survivor)
+	# display the healthy of the player in the screen
+	DisplayText.text_to_screen(screen, 'Health: {0}'.format(survivor.health), WIDTH//2 - tileWidth*4,0,16, BLACK)
+
+    # display the player score
+	DisplayText.text_to_screen(screen, 'Score: {0}'.format(survivor.score), WIDTH//2+tileWidth,0,16, BLACK)
+ 		
+	if not survivor.isAlive:
+		# display the player score
+		DisplayText.text_to_screen(screen, 'GAME OVER!!! Final Score:  {0}'.format(survivor.score), tileWidth,HEIGHT//3,HEIGHT//12, BLACK)
  	# update the total of frames
 	total_frames+=1
     # --- Go ahead and update the screen with what we've drawn.

@@ -1,3 +1,6 @@
+# Copyright by Thiago Santos
+# All rights reserved
+
 from tiles import Tile
 import random
 import pygame

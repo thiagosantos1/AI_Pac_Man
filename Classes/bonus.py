@@ -1,3 +1,6 @@
+# Copyright by Thiago Santos
+# All rights reserved
+
 import pygame
 from tiles import Tile
 from random import randint
@@ -47,7 +50,7 @@ class Bonus(pygame.Rect):
 
 		self.img = Bonus.bonus_img[randint(0,13)]
 		self.img = pygame.transform.scale(self.img, (width,height ))
-		self.poits = 10
+		self.poits = 50
 		self.currenTileNum = tileNum
 
 

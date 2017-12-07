@@ -1,3 +1,6 @@
+# Copyright by Thiago Santos
+# All rights reserved
+
 # file to control the logic of the game
 # control user event input, movements of the characters, etc
 

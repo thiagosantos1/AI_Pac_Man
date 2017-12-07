@@ -1,3 +1,6 @@
+# Copyright by Thiago Santos
+# All rights reserved
+
 import pygame
 from tiles import Tile
 from random import randint
@@ -26,12 +29,10 @@ def A_star_path(character, goal,avoid_agents):
 
 	# if did't find a path avoind all ghosts 
 	if goal not in parent:
-		print("Not found")
 		parent.clear()
 		parent = A_star_path_generator(character, goal, avoid_agents, False) 
 				# then calculate one without thinking about the ghost
 
-	print("Parent: ", parent)
 	# then set the nodes to character to visit
 	done = False
 	target = goal
@@ -65,7 +66,6 @@ def A_star_path_generator(character, goal, avoid_agents, avoidGhost): # returns 
 			if avoidGhost:
 				if not there_is_monster(v,avoid_agents):
 					queue.append(v) # add all neighbors to be explored
-					print("No ghost ",v)
 					parent[v] = vertex.idTile # save where it came from
 					# get the g(n) of that tile
 					Maze.tilesMaze[v].G = get_G_value(vertex)
@@ -107,7 +107,6 @@ def A_star_path_generator(character, goal, avoid_agents, avoidGhost): # returns 
 					# if not on queue to be explored, to add, as well it g and h cost
 					if node_v.color == 'black' and not there_is_monster(v,avoid_agents):
 						queue.append(v)
-						print("No ghost ",v)
 						parent[v] = node_visited.idTile # save where it came from
 						Maze.tilesMaze[v].G = get_G_value(vertex)
 						Maze.tilesMaze[v].H = get_H_value(Maze.tilesMaze[v],Maze.tilesMaze[goal])

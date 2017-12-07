@@ -1,3 +1,6 @@
+# Copyright by Thiago Santos
+# All rights reserved
+
 # an idea would be - Run the path find everytime, to check the monster position update
 import pygame
 from tiles import Tile
@@ -112,9 +115,11 @@ class Monster(Character):
 		# then draw the zombies
 		screen.blit(self.img, (self.x, self.y))
 
-		if self.colliderect(survivor):
+		if self.colliderect(survivor) and len(self.list_target)>0:
 
-			survivor.score -= survivor.get_monster_caught()
+			survivor.health -= survivor.get_monster_caught()
+			if survivor.health <=0:
+				survivor.isAlive = False
 			self.ready_to_set_goal = False
 			self.tx = None 
 			self.ty = None
