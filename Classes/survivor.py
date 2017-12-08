@@ -34,7 +34,7 @@ class Survivor(Character):
 
 		self.original_img = pygame.transform.scale(self.original_img, (width,height ))
 
-		self.health  = 200 # if zombie gets him, he doesn't just die, he loses health
+		self.health  = 500 # if zombie gets him, he doesn't just die, he loses health
 		self.score   = 0
 		self.isAlive = True
 		self.monster_caught = 50 # monster caught survivor, then he loses 50 in his health
