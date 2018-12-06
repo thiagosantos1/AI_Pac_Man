@@ -1,5 +1,6 @@
+# /t/t Test
 <p align="center">
-# AI Autoplayed Maze Game :shipit:
+AI Autoplayed Maze Game :shipit:
 </p>
   <table border=1>
      <tr align='center' > 
