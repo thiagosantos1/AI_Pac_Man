@@ -1,4 +1,4 @@
-</br> 
+
 # AI Autoplayed Maze Game
   <table border=1>
      <tr align='center' > 
