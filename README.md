@@ -1,5 +1,5 @@
 
-# **AI Autoplayed Maze Game
+# AI Autoplayed Maze Game :shipit:
   <table border=1>
      <tr align='center' > 
         <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/20_20.png" width="1200"</td>                 </tr>
