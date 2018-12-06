@@ -23,7 +23,7 @@ The goal is to generate a MAZE, with multiple paths from any point X to another 
 Thus, a random maze is created in each instance by implementing a variation of Kruskal's and Prim's algorithms. </br>
 </br>
 Steps to be implemented
-1) Generate MAZE </br>
+1) Generate MAZE 
 * I decided to generate the MAZE by running DFS. Since DFS keeps going on the depth of a node, instead of looking to all nodes at Depth i, it seems a good idea to use it to generate the MAZE. The idea was to choose a random node to go next, and the direction you choose to go to, randomly, you then remove that wall. 
   * Problem with this approach: </br>
   The problem is that since we are running  DFS(BFS would do the same) we are calculating a path from a node to another. Thus, there’s 1 and only 1 path from node X to node Y. This became a problem later, because the agent’s goal is to avoid the wall and at same time avoid ghosts. However, if there’s only one path, he cannot avoid the ghost, he would be in a dead end, every time. 
