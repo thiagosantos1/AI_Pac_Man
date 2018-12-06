@@ -1,4 +1,4 @@
-<p align="center", size=100>
+<p align="center", size=20>
 AI Autoplayed Maze Game :shipit:
 </p>
   <table border=1>
