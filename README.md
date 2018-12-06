@@ -5,7 +5,7 @@ AI Autoplayed Maze Game :shipit:
      <tr align='center' > 
         <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/20_20.png" width="1200"</td>                 </tr>
   </table>
-  </br> </br>
+  </br>
   
 # Goal
 AI game in Python to play both modes, as a survivor and as a monster in an auto generated maze. 
