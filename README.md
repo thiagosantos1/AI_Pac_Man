@@ -55,7 +55,7 @@ The ghost’s goal is to catch the robot. In order to do that, they were impleme
   that means random walk through the make. However, it’s not actually 100% random, since it uses the idea of DFS. The ghost walks random, but around the Robot, keeping close. This make the world a little more challenging for the robot.
 
 
-# How to play the game
+# How does the Game works
 
 1) Some rules of the game:
 * Robot’s goal is to collect the bonus points(fruits) and to avoid walls and the ghosts.
@@ -76,15 +76,14 @@ Each time the robot collects a fruit, it gets 50 points.
 * The idea is that The maze has tiles and some characters. Each Tile has its own walls. A character implements a variety of search algorithms, and each Robot and Ghost are a character. This idea made the game very simple to handle changes or update something.
 
 
-# How to execute the game
+# How to Play the Game
 
 * python3 main.py </br>
 It will ask you in the command line the following questions: </br>
 * Size you wanna for your maze. 
 * If you want to play yourself as Pac-Man or leave this job for our AI. </br>
 
-** Have fun playing the game.
-
+Have fun playing the game.
 
 # Ilustrations
 
