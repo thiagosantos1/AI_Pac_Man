@@ -19,14 +19,14 @@ The idea to solve was to randomly remove some of the walls. Each tile holds its 
   * Problem with this solution
   It became a much easier maze, but for the game proposal it’s actually a very good one.
 
-2) Robot Shortest Path
+2) Robot Shortest Path </br>
 Robot/Agent has to find the shortest path from his position to a goal (Fruit), but has to avoid the blocked walls and the ghosts at the same time. </br>
   * How? A* algorithm
   To find the shortest path to a goal, avoiding walls and ghosts, robot was implemented in A* algorithm. I also tried DFS and BFS, but they were a little slower when executed with a maze of size > 50. 
   * How to make the search efficient
   The idea here is simple, instead of keeping running A* before every mode, what cause the game to become slow(low efficient), the robot calculate the path once, and then start moving. However, before move, he checks his new 2 targets, and double check if there’s any ghost surrounding those 2 goal targets. If there is, he calculate a new path, avoiding those 2 tiles and of course the wall and any target that currently have a ghost. Otherwise, he just move. This idea still not the best approach, but it did quite worked well, and saved a lot of calculation. 
 
-3) Ghosts Shortest Path
+3) Ghosts Shortest Path </br>
 Ghosts/Monsters has to find a path from his position to the Robot. May be the shortest one or not.
   * How? Using DFS
 The ghost’s goal is to catch the robot. In order to do that, they were implemented in 2 algorithms, DFS and DumbDFS.
@@ -37,21 +37,21 @@ The ghost’s goal is to catch the robot. In order to do that, they were impleme
 
 # How to play the game
 
-1) Some rules of the game:
+1) Some rules of the game: </br>
 * Robot’s goal is to collect the bonus points(fruits) and to avoid walls and the ghosts.
 * Robot and Ghosts cannot move if there is no bonus fruits on screen - This is to make game mode better to play and to visualize
 * Robot has health, like human, not lives. In another words, when caught or pass through an ghost, it loses some health. As longer you stay in touch with ghost, more damage you get. When health gets to zero, you are dead
 Each time the robot collects a fruit, it gets 50 points.
 
-2) There are two ways of playing the game
+2) There are two ways of playing the game </br>
 * AI x AI → Computer plays both modes, as robot and as ghosts.  This is a very game to watch. Sometimes the robot gets confuse, but most of the times it can avoid the ghosts and get the fruit by following the shortest path
 * Player x AI → A human can play as the robot, and can use the arrows to move the robot around. In order to play this mode, you must type “Y” or “Yes” for the question prompted “ Do you wanna to play as the robot(Y/N)” 
 
-3) Other features
+3) Other features </br>
 * You can press G, if you wanna change the maze configuration
 * You can press Space, at any time, to change the color of the maze, for what better fits your needs.
 
-4) Object-Oriented Orientation
+4) Object-Oriented Orientation </br>
 * The game is well structured and designed, with object-oriented orientation.
 * The idea is that The maze has tiles and some characters. Each Tile has its own walls. A character implements a variety of search algorithms, and each Robot and Ghost are a character. This idea made the game very simple to handle changes or update something.
 
