@@ -100,6 +100,7 @@ Samples of Game with different sizes.
          <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/100_100.png" width="700"</td>
      </tr>
   </table>
+</br>
 
 # REFERENCES
 
