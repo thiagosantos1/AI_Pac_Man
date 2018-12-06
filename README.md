@@ -18,8 +18,7 @@ The idea to solve was to randomly remove some of the walls. Each tile holds its 
   * Problem with this solution
   It became a much easier maze, but for the game proposal it’s actually a very good one.
 
-2) 
-Robot/Agent has to find the shortest path from his position to a goal (Fruit), but has to avoid the blocked walls and the ghosts at the same time. </br>
+2) Robot/Agent has to find the shortest path from his position to a goal (Fruit), but has to avoid the blocked walls and the ghosts at the same time. </br>
   * How? A* algorithm
   To find the shortest path to a goal, avoiding walls and ghosts, robot was implemented in A* algorithm. I also tried DFS and BFS, but they were a little slower when executed with a maze of size > 50. 
   * How to make the search efficient
