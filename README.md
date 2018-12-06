@@ -27,7 +27,7 @@ Robot/Agent has to find the shortest path from his position to a goal (Fruit), b
   The idea here is simple, instead of keeping running A* before every mode, what cause the game to become slow(low efficient), the robot calculate the path once, and then start moving. However, before move, he checks his new 2 targets, and double check if there’s any ghost surrounding those 2 goal targets. If there is, he calculate a new path, avoiding those 2 tiles and of course the wall and any target that currently have a ghost. Otherwise, he just move. This idea still not the best approach, but it did quite worked well, and saved a lot of calculation. 
 
 3) Ghosts Shortest Path </br>
-Ghosts/Monsters has to find a path from his position to the Robot. May be the shortest one or not.
+  * Ghosts/Monsters has to find a path from his position to the Robot. May be the shortest one or not.
   * How? Using DFS  </br>
 The ghost’s goal is to catch the robot. In order to do that, they were implemented in 2 algorithms, DFS and DumbDFS.
   * DFS  </br>
