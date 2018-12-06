@@ -10,6 +10,18 @@ AI Autoplayed Maze Game :shipit:
 # Goal
 AI game in Python to play both modes, as a survivor and as a monster in an auto generated maze. 
 
+
+# Requirements
+* Python3
+* Tensorflow
+* Sklearn
+* Numpy
+* Pandas
+* Matplotlib
+* Imageio
+* Scipy
+
+
 # Intuition 
 I Compiled a variety of AI search algorithms in order to create different levels of difficulty in the game, for both, survivor and monster
 
@@ -66,9 +78,12 @@ Each time the robot collects a fruit, it gets 50 points.
 
 # How to execute the game
 
-* The game is implemented in Python 3. The graphic of the game is implemented using Pygame Library. Thus, you need both in your computer. They are already installed in the CS server, however, when login in the server, you must login with graphic privilegios. Somebody told me once how to do that, but I don’t really remember, but I have tried and it’s possible to run it in the CS server. 
-Once you have that part figure it out, you just have to go inside of the folder Classes, and execute the class main.py by running: python3 main.py
-It will ask you in the command line the size you wanna for your maze. Just type, and have fun playing the game.
+* python3 main.py </br>
+It will ask you in the command line the following questions: </br>
+* Size you wanna for your maze. 
+* If you want to play yourself as Pac-Man or leave this job for our AI. </br>
+
+**Have fun playing the game.
 
 
 # Ilustrations
