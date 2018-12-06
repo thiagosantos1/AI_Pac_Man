@@ -73,7 +73,7 @@ It will ask you in the command line the size you wanna for your maze. Just type,
 
 # Ilustrations of the Game
 
-</br> </br> Samples of Game with Size 10x10, 12x12, 20x20, 30x30, 50x50, 100x100
+Samples of Game with Size 10x10, 12x12, 20x20, 30x30, 50x50, 100x100
   <table border=1>
      <tr align='center' > 
         <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/10_10.png" width="700"</td>   
