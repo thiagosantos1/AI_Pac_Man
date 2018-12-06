@@ -83,7 +83,7 @@ It will ask you in the command line the following questions: </br>
 * Size you wanna for your maze. 
 * If you want to play yourself as Pac-Man or leave this job for our AI. </br>
 
-**Have fun playing the game.
+** Have fun playing the game.
 
 
 # Ilustrations
