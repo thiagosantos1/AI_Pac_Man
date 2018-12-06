@@ -28,10 +28,10 @@ Robot/Agent has to find the shortest path from his position to a goal (Fruit), b
 
 3) Ghosts Shortest Path </br>
   * Ghosts/Monsters has to find a path from his position to the Robot. May be the shortest one or not.
-  * How? Using DFS  </br>
+   * How? Using DFS  </br>
 The ghost’s goal is to catch the robot. In order to do that, they were implemented in 2 algorithms, DFS and DumbDFS.
-  * DFS  </br>
-  By DFS, the ghost finds the shortest path to robot, and keep moving, trying to catch him. However, most of the ghost are implemented in   *DumbDFS  </br>
+   * DFS  </br>
+  By DFS, the ghost finds the shortest path to robot, and keep moving, trying to catch him. However, most of the ghost are implemented in    *DumbDFS  </br>
   that means random walk through the make. However, it’s not actually 100% random, since it uses the idea of DFS. The ghost walks random, but around the Robot, keeping close. This make the world a little more challenging for the robot.
 
 
