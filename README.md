@@ -13,14 +13,7 @@ AI game in Python to play both modes, as a survivor and as a monster in an auto 
 
 # Requirements
 * Python3
-* Tensorflow
-* Sklearn
-* Numpy
-* Pandas
-* Matplotlib
-* Imageio
-* Scipy
-
+* Pygame
 
 # Intuition 
 I Compiled a variety of AI search algorithms in order to create different levels of difficulty in the game, for both, survivor and monster
@@ -55,7 +48,7 @@ The ghost’s goal is to catch the robot. In order to do that, they were impleme
   that means random walk through the make. However, it’s not actually 100% random, since it uses the idea of DFS. The ghost walks random, but around the Robot, keeping close. This make the world a little more challenging for the robot.
 
 
-# How does the Game works
+# How Game works
 
 1) Some rules of the game:
 * Robot’s goal is to collect the bonus points(fruits) and to avoid walls and the ghosts.
