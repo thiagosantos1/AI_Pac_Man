@@ -71,9 +71,9 @@ Once you have that part figure it out, you just have to go inside of the folder 
 It will ask you in the command line the size you wanna for your maze. Just type, and have fun playing the game.
 
 
-# Ilustrations of the Game
+# Ilustrations
 
-Samples of Game with Size 10x10, 12x12, 20x20, 30x30, 50x50, 100x100
+Samples of Game with different sizes.
   <table border=1>
      <tr align='center'>
         <td>10 x 10</td>                    
