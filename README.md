@@ -1,4 +1,3 @@
-# /t/t Test
 <p align="center">
 AI Autoplayed Maze Game :shipit:
 </p>
