@@ -101,7 +101,7 @@ Samples of Game with different sizes.
      </tr>
   </table>
 
-REFERENCES
+# REFERENCES
 
 http://www.astrolog.org/labyrnth/algrithm.htm
 https://puzzling.stackexchange.com/questions/38/how-can-i-generate-mazes-that-often-have-multiple-forks-or-choices
