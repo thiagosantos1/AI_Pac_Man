@@ -1,6 +1,5 @@
-<p align="center">
+<p align="center", size=100>
 AI Autoplayed Maze Game :shipit:
-  <font size="+10">This is bigger text.</font>
 </p>
   <table border=1>
      <tr align='center' > 
