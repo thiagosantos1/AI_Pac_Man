@@ -9,7 +9,8 @@ I Compiled a variety of AI search algorithms in order to create different levels
 The goal is to generate a MAZE, with multiple paths from any point X to another point Y. </br>
 Thus, a random maze is created in each instance by implementing a variation of Kruskal's and Prim's algorithms. </br>
 </br>
-1) First Step </br>
+Steps to be implemented
+1) Generate MAZE </br>
 I decided to generate the MAZE by running DFS. Since DFS keeps going on the depth of a node, instead of looking to all nodes at Depth i, it seems a good idea to use it to generate the MAZE. The idea was to choose a random node to go next, and the direction you choose to go to, randomly, you then remove that wall. 
   * Problem with this approach:
   The problem is that since we are running  DFS(BFS would do the same) we are calculating a path from a node to another. Thus, there’s 1 and only 1 path from node X to node Y. This became a problem later, because the agent’s goal is to avoid the wall and at same time avoid ghosts. However, if there’s only one path, he cannot avoid the ghost, he would be in a dead end, every time. 
@@ -18,13 +19,15 @@ The idea to solve was to randomly remove some of the walls. Each tile holds its 
   * Problem with this solution
   It became a much easier maze, but for the game proposal it’s actually a very good one.
 
-2) Robot/Agent has to find the shortest path from his position to a goal (Fruit), but has to avoid the blocked walls and the ghosts at the same time. </br>
+2) Robot Shortest Path
+Robot/Agent has to find the shortest path from his position to a goal (Fruit), but has to avoid the blocked walls and the ghosts at the same time. </br>
   * How? A* algorithm
   To find the shortest path to a goal, avoiding walls and ghosts, robot was implemented in A* algorithm. I also tried DFS and BFS, but they were a little slower when executed with a maze of size > 50. 
   * How to make the search efficient
   The idea here is simple, instead of keeping running A* before every mode, what cause the game to become slow(low efficient), the robot calculate the path once, and then start moving. However, before move, he checks his new 2 targets, and double check if there’s any ghost surrounding those 2 goal targets. If there is, he calculate a new path, avoiding those 2 tiles and of course the wall and any target that currently have a ghost. Otherwise, he just move. This idea still not the best approach, but it did quite worked well, and saved a lot of calculation. 
 
-3) Ghosts/Monsters has to find a path from his position to the Robot. May be the shortest one or not.
+3) Ghosts Shortest Path
+Ghosts/Monsters has to find a path from his position to the Robot. May be the shortest one or not.
   * How? Using DFS
 The ghost’s goal is to catch the robot. In order to do that, they were implemented in 2 algorithms, DFS and DumbDFS.
   * DFS
