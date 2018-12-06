@@ -76,16 +76,24 @@ It will ask you in the command line the size you wanna for your maze. Just type,
 Samples of Game with Size 10x10, 12x12, 20x20, 30x30, 50x50, 100x100
   <table border=1>
      <tr align='center'>
-        <td>Original Image</td>                    
-        <td>Convolved Image</td>                                    
+        <td>10 x 10</td>                    
+        <td>12 x 12</td>                                    
      </tr>
      <tr align='center' > 
         <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/10_10.png" width="700"</td>   
        <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/12_12.png" width="700"</td>
      </tr>
+     <tr align='center'>
+        <td>20 x 20</td>                    
+        <td>30 x 30</td>                                    
+     </tr>
      <tr align='center' > 
           <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/20_20.png" width="700"</td>
          <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/30_30.png" width="700"</td>
+     </tr>
+    <tr align='center'>
+        <td>50 x 50</td>                    
+        <td>100 x 100</td>                                    
      </tr>
     <tr align='center' >
          <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/50_50.png" width="700"</td>
