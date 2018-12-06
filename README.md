@@ -71,6 +71,23 @@ Once you have that part figure it out, you just have to go inside of the folder 
 It will ask you in the command line the size you wanna for your maze. Just type, and have fun playing the game.
 
 
+# Ilustration of Game
+
+</br> </br> Samples of Game with Size 10x10, 12x12, 20x20, 30x30, 50x50, 100x100
+  <table border=1>
+     <tr align='center' > 
+        <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/10_10.png" width="500"</td>   
+       <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/12_12.png" width="500"</td>
+     </tr>
+     <tr align='center' > 
+          <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/20_20.png" width="500"</td>
+         <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/30_30.png" width="500"</td>
+     </tr>
+    <tr align='center' >
+         <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/50_50.png" width="500"</td>
+         <td><img src="https://github.com/thiagosantos1/AI_Maze_Game/blob/master/Images/running_game/100_100.png" width="500"</td>
+     </tr>
+  </table>
 
 REFERENCES
 
